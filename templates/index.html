@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart CI/CD Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:#050816;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+/* BACKGROUND */
+.bg{
+    position:absolute;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+.circle{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:0.5;
+    animation:float 12s infinite ease-in-out;
+}
+
+.circle1{
+    width:400px;
+    height:400px;
+    background:#00f5ff;
+    top:-120px;
+    left:-120px;
+}
+
+.circle2{
+    width:350px;
+    height:350px;
+    background:#7c3aed;
+    bottom:-120px;
+    right:-120px;
+    animation-delay:2s;
+}
+
+.circle3{
+    width:300px;
+    height:300px;
+    background:#0ea5e9;
+    top:50%;
+    left:55%;
+    animation-delay:4s;
+}
+
+@keyframes float{
+    0%{transform:translateY(0) translateX(0);}
+    50%{transform:translateY(-50px) translateX(40px);}
+    100%{transform:translateY(0) translateX(0);}
+}
+
+/* MAIN CONTAINER */
+.container{
+    position:relative;
+    width:92%;
+    max-width:1200px;
+    padding:50px;
+    border-radius:30px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.1);
+    backdrop-filter:blur(20px);
+    box-shadow:0 0 60px rgba(0,0,0,0.6);
+}
+
+/* BADGE */
+.badge{
+    display:inline-block;
+    padding:10px 22px;
+    border-radius:50px;
+    background:rgba(34,197,94,0.15);
+    color:#22c55e;
+    border:1px solid #22c55e;
+    margin-bottom:20px;
+    font-size:14px;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(34,197,94,0.5);}
+    70%{box-shadow:0 0 0 18px rgba(34,197,94,0);}
+    100%{box-shadow:0 0 0 0 rgba(34,197,94,0);}
+}
+
+/* TITLE */
+h1{
+    font-size:64px;
+    margin-bottom:10px;
+    background:linear-gradient(90deg,#38bdf8,#8b5cf6,#06b6d4);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* SUBTITLE */
+.typing{
+    font-size:20px;
+    color:#cbd5e1;
+    margin-bottom:40px;
+}
+
+/* GRID */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:25px;
+}
+
+/* ========================= */
+/*  PREMIUM ANIMATED CARD    */
+/* ========================= */
+
+.card{
+    position:relative;
+    padding:28px;
+    border-radius:22px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    overflow:hidden;
+
+    transform-style:preserve-3d;
+    transition:transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* glowing animated border */
+.card::before{
+    content:'';
+    position:absolute;
+    inset:-2px;
+    background:linear-gradient(
+        45deg,
+        #38bdf8,
+        #8b5cf6,
+        #22c55e,
+        #06b6d4
+    );
+    background-size:300% 300%;
+    z-index:0;
+    opacity:0;
+    transition:0.4s;
+    animation:gradientMove 6s infinite linear;
+}
+
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* inner glass layer */
+.card::after{
+    content:'';
+    position:absolute;
+    inset:1px;
+    background:rgba(10,15,30,0.92);
+    border-radius:20px;
+    z-index:0;
+}
+
+/* content */
+.card h3,
+.card p{
+    position:relative;
+    z-index:1;
+}
+
+.card h3{
+    font-size:18px;
+    margin-bottom:12px;
+    color:#38bdf8;
+}
+
+.card p{
+    color:#d1d5db;
+}
+
+/* HOVER EFFECT (3D FLOAT + GLOW) */
+.card:hover{
+    transform:translateY(-12px) rotateX(6deg) rotateY(-6deg) scale(1.03);
+    box-shadow:0 20px 50px rgba(0,0,0,0.6);
+}
+
+.card:hover::before{
+    opacity:1;
+}
+
+/* STATUS */
+.status{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    color:#22c55e;
+    font-weight:600;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    background:#22c55e;
+    border-radius:50%;
+    animation:pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.6); opacity:0.5;}
+    100%{transform:scale(1);}
+}
+
+/* FOOTER */
+.footer{
+    margin-top:45px;
+    text-align:center;
+    color:#94a3b8;
+    font-size:14px;
+}
+
+.developer{
+    margin-top:8px;
+    color:#38bdf8;
+    font-weight:600;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    h1{font-size:40px;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg">
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
+</div>
+
+<div class="container">
+
+    <div class="badge">Intelligent Deployment System Active</div>
+
+    <h1>Smart CI/CD Platform</h1>
+
+    <div class="typing">
+        Automated Deployment • Zero Downtime • Auto Rollback • Monitoring
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Current Version</h3>
+            <p>{{ version }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Deployment Status</h3>
+            <p>{{ status }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Cloud Monitoring</h3>
+            <p>CloudWatch Active</p>
+        </div>
+
+        <div class="card">
+            <h3>Rollback System</h3>
+            <p>Enabled & Ready</p>
+        </div>
+
+    </div>
+
+    <div class="status">
+        <div class="dot"></div>
+        System Healthy & Running
+    </div>
+
+    <div class="footer">
+        Powered by AWS CodePipeline • CodeDeploy • EC2 • CloudWatch
+        <div class="developer">
+            Developed by Muhammad Zubair
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
