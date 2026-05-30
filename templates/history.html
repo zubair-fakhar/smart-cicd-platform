@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deployment History</title>
+</head>
+<body style="background:#050816;color:white;font-family:Poppins;text-align:center;padding:50px;">
+
+<h1>Deployment History</h1>
+
+<table border="1" style="margin:auto;padding:10px;">
+<tr>
+    <th>Version</th>
+    <th>Status</th>
+</tr>
+
+{% for item in history %}
+<tr>
+    <td>{{ item.version }}</td>
+    <td>{{ item.status }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>
