@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -23,27 +24,32 @@ jobs:
         run: |
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Create Application Directory
+      - name: Create Directories
         run: |
-          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-          "mkdir -p /home/ubuntu/app"
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
+            mkdir -p /home/ubuntu/app
+            mkdir -p /home/ubuntu/backups
+          "
 
       - name: Backup Current Version
         run: |
-         ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
-           rm -rf /home/ubuntu/backups/latest || true
-           cp -r /home/ubuntu/app /home/ubuntu/backups/latest || true
-         "
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
+            rm -rf /home/ubuntu/backups/latest || true
 
-      - name: Upload Files
+            if [ -d /home/ubuntu/app ]; then
+              cp -r /home/ubuntu/app /home/ubuntu/backups/latest
+            fi
+          "
+
+      - name: Upload New Version
         run: |
           rsync -avz --delete \
-          --exclude='.git' \
-          --exclude='.github' \
-          ./ \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/app
+            --exclude='.git' \
+            --exclude='.github' \
+            ./ \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/app
 
-      - name: Install Dependencies and Restart App
+      - name: Deploy Application
         run: |
           ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
 
@@ -58,4 +64,43 @@ jobs:
             app:app \
             > app.log 2>&1 &
 
+          sleep 5
+
           EOF
+
+      - name: Health Check
+        run: |
+          sleep 10
+          curl --fail http://${{ secrets.EC2_HOST }}:5000/health
+
+      - name: Rollback If Deployment Failed
+        if: failure()
+        run: |
+          echo "Deployment failed. Starting rollback..."
+
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+
+          pkill -f gunicorn || true
+
+          rm -rf /home/ubuntu/app
+
+          cp -r /home/ubuntu/backups/latest /home/ubuntu/app
+
+          cd /home/ubuntu/app
+
+          nohup gunicorn \
+            --bind 0.0.0.0:5000 \
+            app:app \
+            > app.log 2>&1 &
+
+          EOF
+
+      - name: Deployment Success
+        if: success()
+        run: |
+          echo "Deployment completed successfully."
+
+      - name: Rollback Completed
+        if: failure()
+        run: |
+          echo "Rollback completed successfully."
