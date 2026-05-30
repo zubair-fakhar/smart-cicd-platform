@@ -1,0 +1,54 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Add EC2 Host
+        run: |
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Create Application Directory
+        run: |
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+          "mkdir -p /home/ubuntu/app"
+
+      - name: Upload Files
+        run: |
+          rsync -avz --delete \
+          --exclude='.git' \
+          --exclude='.github' \
+          ./ \
+          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/app
+
+      - name: Install Dependencies and Restart App
+        run: |
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+
+          pkill -f gunicorn || true
+
+          cd /home/ubuntu/app
+
+          pip3 install flask gunicorn --break-system-packages
+
+          nohup gunicorn \
+            --bind 0.0.0.0:5000 \
+            app:app \
+            > app.log 2>&1 &
+
+          EOF
