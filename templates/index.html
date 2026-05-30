@@ -273,29 +273,49 @@ h1{
         Automated Deployment • Zero Downtime • Auto Rollback • Monitoring
     </div>
 
-    <div class="cards">
+<div class="cards">
 
-        <div class="card">
-            <h3>Current Version</h3>
-            <p>{{ version }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Deployment Status</h3>
-            <p>{{ status }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Cloud Monitoring</h3>
-            <p>CloudWatch Active</p>
-        </div>
-
-        <div class="card">
-            <h3>Rollback System</h3>
-            <p>Enabled & Ready</p>
-        </div>
-
+    <div class="card">
+        <h3>Current Version</h3>
+        <p>{{ version }}</p>
     </div>
+
+    <div class="card">
+        <h3>Deployment Status</h3>
+        <p>{{ status }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Successful Deployments</h3>
+        <p>{{ success }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Failed Deployments</h3>
+        <p>{{ failed }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Rollback Count</h3>
+        <p>{{ rollbacks }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Last Deployment</h3>
+        <p>{{ last_deployment }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Cloud Monitoring</h3>
+        <p>CloudWatch Active</p>
+    </div>
+
+    <div class="card">
+        <h3>System Health</h3>
+        <p>99.99% Uptime</p>
+    </div>
+
+</div>
 
     <div class="status">
         <div class="dot"></div>
