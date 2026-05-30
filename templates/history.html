@@ -1,26 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Deployment History</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deployment History</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#050816;
+    color:white;
+    padding:40px;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.header h1{
+    font-size:48px;
+    background:linear-gradient(90deg,#38bdf8,#8b5cf6);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.back-btn{
+    display:inline-block;
+    margin-top:15px;
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+.history-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.card{
+    padding:25px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.version{
+    font-size:24px;
+    color:#38bdf8;
+    margin-bottom:10px;
+}
+
+.status{
+    color:#22c55e;
+    font-weight:600;
+}
+
+</style>
 </head>
-<body style="background:#050816;color:white;font-family:Poppins;text-align:center;padding:50px;">
 
-<h1>Deployment History</h1>
+<body>
 
-<table border="1" style="margin:auto;padding:10px;">
-<tr>
-    <th>Version</th>
-    <th>Status</th>
-</tr>
+<div class="header">
+    <h1>Deployment History</h1>
+    <a href="/" class="back-btn">← Back to Dashboard</a>
+</div>
+
+<div class="history-grid">
 
 {% for item in history %}
-<tr>
-    <td>{{ item.version }}</td>
-    <td>{{ item.status }}</td>
-</tr>
+<div class="card">
+    <div class="version">
+        Version {{ item.version }}
+    </div>
+
+    <div class="status">
+        Status: {{ item.status }}
+    </div>
+</div>
 {% endfor %}
 
-</table>
+</div>
 
 </body>
 </html>
