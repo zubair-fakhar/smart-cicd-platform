@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Smart CI/CD Platform</title>
+<title>Intelligent CI/CD Platform</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -28,19 +28,21 @@ body{
     padding:40px 0;
 }
 
-/* BACKGROUND */
+/* Background */
+
 .bg{
-    position:absolute;
+    position:fixed;
     width:100%;
     height:100%;
     overflow:hidden;
+    z-index:-1;
 }
 
 .circle{
     position:absolute;
     border-radius:50%;
     filter:blur(120px);
-    opacity:0.5;
+    opacity:0.45;
     animation:float 12s infinite ease-in-out;
 }
 
@@ -76,12 +78,14 @@ body{
     100%{transform:translateY(0) translateX(0);}
 }
 
-/* MAIN CONTAINER */
+/* Main Container */
+
 .container{
     position:relative;
     width:92%;
-    max-width:1200px;
+    max-width:1300px;
     padding:50px;
+    margin:40px 0;
     border-radius:30px;
     background:rgba(255,255,255,0.06);
     border:1px solid rgba(255,255,255,0.1);
@@ -89,7 +93,27 @@ body{
     box-shadow:0 0 60px rgba(0,0,0,0.6);
 }
 
-/* BADGE */
+/* Navigation */
+
+.nav{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.nav a{
+    color:#38bdf8;
+    text-decoration:none;
+    margin:0 15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.nav a:hover{
+    color:white;
+}
+
+/* Badge */
+
 .badge{
     display:inline-block;
     padding:10px 22px;
@@ -108,7 +132,8 @@ body{
     100%{box-shadow:0 0 0 0 rgba(34,197,94,0);}
 }
 
-/* TITLE */
+/* Heading */
+
 h1{
     font-size:64px;
     margin-bottom:10px;
@@ -117,23 +142,19 @@ h1{
     -webkit-text-fill-color:transparent;
 }
 
-/* SUBTITLE */
 .typing{
     font-size:20px;
     color:#cbd5e1;
     margin-bottom:40px;
 }
 
-/* GRID */
+/* Cards */
+
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:25px;
 }
-
-/* ========================= */
-/*  PREMIUM ANIMATED CARD    */
-/* ========================= */
 
 .card{
     position:relative;
@@ -142,12 +163,9 @@ h1{
     background:rgba(255,255,255,0.05);
     border:1px solid rgba(255,255,255,0.08);
     overflow:hidden;
-
-    transform-style:preserve-3d;
-    transition:transform 0.35s ease, box-shadow 0.35s ease;
+    transition:.35s;
 }
 
-/* glowing animated border */
 .card::before{
     content:'';
     position:absolute;
@@ -160,9 +178,8 @@ h1{
         #06b6d4
     );
     background-size:300% 300%;
-    z-index:0;
     opacity:0;
-    transition:0.4s;
+    transition:.4s;
     animation:gradientMove 6s infinite linear;
 }
 
@@ -172,17 +189,14 @@ h1{
     100%{background-position:0% 50%;}
 }
 
-/* inner glass layer */
 .card::after{
     content:'';
     position:absolute;
     inset:1px;
-    background:rgba(10,15,30,0.92);
     border-radius:20px;
-    z-index:0;
+    background:rgba(10,15,30,0.95);
 }
 
-/* content */
 .card h3,
 .card p{
     position:relative;
@@ -190,26 +204,24 @@ h1{
 }
 
 .card h3{
-    font-size:18px;
-    margin-bottom:12px;
     color:#38bdf8;
+    margin-bottom:12px;
 }
 
 .card p{
     color:#d1d5db;
 }
 
-/* HOVER EFFECT (3D FLOAT + GLOW) */
 .card:hover{
-    transform:translateY(-12px) rotateX(6deg) rotateY(-6deg) scale(1.03);
-    box-shadow:0 20px 50px rgba(0,0,0,0.6);
+    transform:translateY(-10px);
 }
 
 .card:hover::before{
     opacity:1;
 }
 
-/* STATUS */
+/* Status */
+
 .status{
     margin-top:40px;
     display:flex;
@@ -230,11 +242,12 @@ h1{
 
 @keyframes pulseDot{
     0%{transform:scale(1);}
-    50%{transform:scale(1.6); opacity:0.5;}
+    50%{transform:scale(1.6);opacity:.5;}
     100%{transform:scale(1);}
 }
 
-/* FOOTER */
+/* Footer */
+
 .footer{
     margin-top:45px;
     text-align:center;
@@ -248,9 +261,19 @@ h1{
     font-weight:600;
 }
 
-/* RESPONSIVE */
 @media(max-width:768px){
-    h1{font-size:40px;}
+
+    h1{
+        font-size:40px;
+    }
+
+    .typing{
+        font-size:16px;
+    }
+
+    .container{
+        padding:30px;
+    }
 }
 
 </style>
@@ -266,7 +289,14 @@ h1{
 
 <div class="container">
 
-    <div class="badge">Intelligent Deployment System Active</div>
+    <div class="nav">
+        <a href="/">Dashboard</a>
+        <a href="/history">Deployment History</a>
+    </div>
+
+    <div class="badge">
+        Intelligent Deployment System Active
+    </div>
 
     <h1>Smart CI/CD Platform</h1>
 
@@ -274,49 +304,54 @@ h1{
         Automated Deployment • Zero Downtime • Auto Rollback • Monitoring
     </div>
 
-<div class="cards">
+    <div class="cards">
 
-    <div class="card">
-        <h3>Current Version</h3>
-        <p>{{ version }}</p>
+        <div class="card">
+            <h3>Current Version</h3>
+            <p>{{ version }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Deployment Status</h3>
+            <p>{{ status }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Successful Deployments</h3>
+            <p>{{ success }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Failed Deployments</h3>
+            <p>{{ failed }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Rollback Count</h3>
+            <p>{{ rollbacks }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Last Deployment</h3>
+            <p>{{ last_deployment }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Cloud Monitoring</h3>
+            <p>CloudWatch Active</p>
+        </div>
+
+        <div class="card">
+            <h3>System Health</h3>
+            <p>99.99% Uptime</p>
+        </div>
+
+        <div class="card">
+            <h3>Email Notifications</h3>
+            <p>Enabled</p>
+        </div>
+
     </div>
-
-    <div class="card">
-        <h3>Deployment Status</h3>
-        <p>{{ status }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Successful Deployments</h3>
-        <p>{{ success }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Failed Deployments</h3>
-        <p>{{ failed }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Rollback Count</h3>
-        <p>{{ rollbacks }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Last Deployment</h3>
-        <p>{{ last_deployment }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Cloud Monitoring</h3>
-        <p>CloudWatch Active</p>
-    </div>
-
-    <div class="card">
-        <h3>System Health</h3>
-        <p>99.99% Uptime</p>
-    </div>
-
-</div>
 
     <div class="status">
         <div class="dot"></div>
@@ -325,6 +360,7 @@ h1{
 
     <div class="footer">
         Powered by GitHub Actions • AWS EC2 • CloudWatch • Auto Rollback Engine
+
         <div class="developer">
             Developed by Muhammad Zubair
         </div>
