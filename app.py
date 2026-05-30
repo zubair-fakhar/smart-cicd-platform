@@ -1,5 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from datetime import datetime
+import json
 import os
 
 app = Flask(__name__)
@@ -13,16 +14,15 @@ SUCCESSFUL_DEPLOYMENTS = 5
 FAILED_DEPLOYMENTS = 1
 ROLLBACKS = 1
 
-@app.route('/')
-def home():
+@app.route('/history')
+def history():
+
+    with open("history.json") as f:
+        history_data = json.load(f)
+
     return render_template(
-        'index.html',
-        version=VERSION,
-        status=DEPLOYMENT_STATUS,
-        success=SUCCESSFUL_DEPLOYMENTS,
-        failed=FAILED_DEPLOYMENTS,
-        rollbacks=ROLLBACKS,
-        last_deployment=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "history.html",
+        history=history_data
     )
 
 @app.route('/health')
