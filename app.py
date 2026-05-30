@@ -3,7 +3,9 @@ import os
 
 app = Flask(__name__)
 
-VERSION = "Version 1.0"
+with open("version.txt", "r") as f:
+    VERSION = f.read().strip()
+
 DEPLOYMENT_STATUS = "Successful"
 
 @app.route('/')
