@@ -240,6 +240,7 @@ This project demonstrates practical knowledge of:
 ## Author
 
 **Zubair Fakhar**
+
 GitHub: https://github.com/zubair-fakhar
 
 ---
