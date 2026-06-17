@@ -1,29 +1,35 @@
-Smart CI/CD Platform 🚀
-Intelligent CI/CD Deployment & Auto Rollback Platform using AWS
+# Smart CI/CD Platform 🚀
+## Intelligent CI/CD Deployment & Auto Rollback Platform using AWS
 
-📌 Project Overview
 Smart CI/CD Platform is a cloud-based deployment automation system built using Flask, GitHub Actions, and AWS EC2.
 
-It automates the complete software delivery pipeline including:
-Continuous Integration (CI)
-Continuous Deployment (CD)
-Automated server deployment
-Health monitoring
-Deployment history tracking
-Automatic rollback on failure
+It automates the complete software delivery pipeline, including Continuous Integration (CI), Continuous Deployment (CD), health monitoring, deployment tracking, and automatic rollback when deployment failures are detected.
 
-This project demonstrates real-world DevOps and Cloud Computing concepts.
+This project was developed as part of a Cloud Computing course to demonstrate real-world DevOps and cloud deployment practices.
 
-⚙️ Features
-🔄 Automated CI/CD pipeline using GitHub Actions
-☁️ AWS EC2 deployment integration
-🧠 Auto rollback on deployment failure
-📊 Deployment dashboard (Flask web UI)
-📜 Deployment history tracking
-❤️ Health check endpoint for monitoring
-📦 Backup of previous stable version before deployment
-🚀 Zero-downtime deployment simulation
-🏗️ System Architecture
+---
+
+## Features
+
+- Automated CI/CD pipeline using GitHub Actions
+- AWS EC2 deployment integration
+- Automatic rollback on deployment failure
+- Health monitoring using a dedicated health check endpoint
+- Deployment dashboard built with Flask
+- Deployment history tracking
+- Backup of previous stable version before deployment
+- Version tracking and deployment analytics
+- Secure deployment using GitHub Secrets
+
+---
+
+## System Architecture
+
+![System Architecture](docs/architecture.png)
+
+### Deployment Flow
+
+```text
 Developer
    │
    ▼
@@ -41,68 +47,37 @@ GitHub Actions (CI/CD Pipeline)
 AWS EC2 Server
    │
    ▼
-Flask Application (Dashboard + API)
-🧰 Tech Stack
-Python (Flask)
-GitHub Actions
-AWS EC2
-Gunicorn
-Bash Scripting
-HTML/CSS (Dashboard UI)
-🔄 CI/CD Workflow
-Developer pushes code to main branch
-GitHub Actions pipeline is triggered
-Current application is backed up
-New code is deployed to AWS EC2
-Health check is executed (/health)
-If successful → deployment completes
-If failed → automatic rollback to previous version
-🚀 Setup Instructions
-1. Clone Repository
-git clone https://github.com/your-username/smart-cicd-platform.git
-cd smart-cicd-platform
-2. Install Dependencies
-pip install -r requirements.txt
-3. Run Locally
-python app.py
+Flask Application
+```
 
-Open:
+---
 
-http://127.0.0.1:5000
-☁️ AWS Deployment Setup
-Required GitHub Secrets:
+## Tech Stack
 
-You must configure these in:
+### Backend
+- Python
+- Flask
+- Gunicorn
 
-GitHub Repository → Settings → Secrets and Variables → Actions
+### Cloud & DevOps
+- AWS EC2
+- GitHub Actions
+- Bash Scripting
 
-Add:
+### Frontend
+- HTML
+- CSS
 
-EC2_HOST → Your AWS EC2 public IP
-EC2_USER → Usually ubuntu
-EC2_SSH_KEY → Your private SSH key (.pem content)
-🔐 Security Note
+---
 
-All sensitive data (SSH keys, IPs, credentials) are stored securely using GitHub Secrets and are NOT exposed publicly.
+## Project Structure
 
-📊 Health Check Endpoint
-/health
-
-Returns:
-
-healthy
-
-Used by CI/CD pipeline to verify successful deployment.
-
-📁 Project Structure
+```text
 smart-cicd-platform/
 │
-├── app.py
-├── requirements.txt
-├── appspec.yml
-├── version.txt
-├── analytics.json
-├── history.json
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
 │
 ├── scripts/
 │   ├── start_server.sh
@@ -113,30 +88,163 @@ smart-cicd-platform/
 │   ├── index.html
 │   └── history.html
 │
-└── .github/workflows/
-    └── deploy.yml
-📸 Screenshots
+├── app.py
+├── appspec.yml
+├── requirements.txt
+├── version.txt
+├── analytics.json
+├── history.json
+├── LICENSE
+├── .gitignore
+└── README.md
+```
 
-Add screenshots of dashboard and deployment history here.
+---
 
-Example:
+## How the CI/CD Pipeline Works
 
-Dashboard view
-Deployment history page
-CI/CD pipeline success logs
-🔮 Future Improvements
-Integration with AWS CloudWatch
-Real-time monitoring dashboard
-Docker containerization
-Multi-environment deployment (dev/staging/prod)
-Slack/email notifications for deployment status
-👨‍💻 Author
+1. Developer pushes code to the `main` branch.
+2. GitHub Actions workflow is automatically triggered.
+3. Current application version is backed up on the EC2 server.
+4. New code is transferred and deployed.
+5. The application starts using Gunicorn.
+6. A health check request is sent to the application.
+7. If the health check succeeds, deployment is completed.
+8. If the health check fails, the previous stable version is restored automatically.
 
-Zubair
+---
 
-Cloud Computing Project – Smart CI/CD Platform
+## Auto Rollback Mechanism
+
+One of the key features of this platform is its automatic rollback capability.
+
+### Process
+
+- Before deployment, the current working version is backed up.
+- After deployment, the application health is verified.
+- If deployment validation fails:
+  - The newly deployed version is removed.
+  - The previous stable backup is restored.
+  - The application is restarted automatically.
+
+This minimizes downtime and helps maintain service availability.
+
+---
+
+## Health Check Endpoint
+
+The application provides a dedicated endpoint for deployment verification.
+
+```text
+/health
+```
+
+The CI/CD workflow uses this endpoint to determine whether deployment was successful.
+
+---
+
+## Installation
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/zubair-fakhar/smart-cicd-platform.git
+cd smart-cicd-platform
+```
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Run the Application
+
+```bash
+python app.py
+```
+
+Open:
+
+```text
+http://127.0.0.1:5000
+```
+
+---
+
+## AWS Deployment Configuration
+
+### Required GitHub Secrets
+
+Navigate to:
+
+```text
+Repository Settings → Secrets and Variables → Actions
+```
+
+Create the following secrets:
+
+| Secret Name | Description |
+|------------|-------------|
+| EC2_HOST | AWS EC2 Public IP |
+| EC2_USER | EC2 Username (usually ubuntu) |
+| EC2_SSH_KEY | Private SSH Key (.pem contents) |
+
+### Security Note
+
+Sensitive deployment information is stored using GitHub Secrets and is not publicly accessible.
+
+---
+
+## Deployment Dashboard
+
+The platform includes a web-based dashboard that displays:
+
+- Current application version
+- Deployment status
+- Successful deployments
+- Failed deployments
+- Rollback statistics
+- Deployment history
+
+---
+
+## Deployment History
+
+Deployment records are stored and displayed through the history module.
+
+Tracked information includes:
+
+- Version number
+- Deployment status
+- Deployment timestamp
+- Rollback events
+
+---
+
+## Learning Outcomes
+
+This project demonstrates practical knowledge of:
+
+- Cloud Computing
+- Continuous Integration
+- Continuous Deployment
+- AWS Infrastructure Management
+- Deployment Automation
+- Health Monitoring
+- Failure Recovery Strategies
+- DevOps Workflows
+
+---
+
+## Author
+
+**Zubair Fakhar**
 GitHub: https://github.com/zubair-fakhar
 
-⭐ Conclusion
+---
 
-This project demonstrates a complete real-world DevOps pipeline with automated deployment, monitoring, and rollback using modern cloud tools.
+## License
+
+This project is licensed under the MIT License.
+See the LICENSE file for details.
