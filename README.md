@@ -5,8 +5,6 @@ Smart CI/CD Platform is a cloud-based deployment automation system built using F
 
 It automates the complete software delivery pipeline, including Continuous Integration (CI), Continuous Deployment (CD), health monitoring, deployment tracking, and automatic rollback when deployment failures are detected.
 
-This project was developed as part of a Cloud Computing course to demonstrate real-world DevOps and cloud deployment practices.
-
 ---
 
 ## Features
@@ -94,7 +92,6 @@ smart-cicd-platform/
 ├── version.txt
 ├── analytics.json
 ├── history.json
-├── LICENSE
 ├── .gitignore
 └── README.md
 ```
@@ -114,10 +111,6 @@ smart-cicd-platform/
 
 ---
 
-## Auto Rollback Mechanism
-
-One of the key features of this platform is its automatic rollback capability.
-
 ### Process
 
 - Before deployment, the current working version is backed up.
@@ -134,12 +127,6 @@ This minimizes downtime and helps maintain service availability.
 ## Health Check Endpoint
 
 The application provides a dedicated endpoint for deployment verification.
-
-```text
-/health
-```
-
-The CI/CD workflow uses this endpoint to determine whether deployment was successful.
 
 ---
 
@@ -190,10 +177,6 @@ Create the following secrets:
 | EC2_USER | EC2 Username (usually ubuntu) |
 | EC2_SSH_KEY | Private SSH Key (.pem contents) |
 
-### Security Note
-
-Sensitive deployment information is stored using GitHub Secrets and is not publicly accessible.
-
 ---
 
 ## Deployment Dashboard
@@ -222,30 +205,6 @@ Tracked information includes:
 
 ---
 
-## Learning Outcomes
-
-This project demonstrates practical knowledge of:
-
-- Cloud Computing
-- Continuous Integration
-- Continuous Deployment
-- AWS Infrastructure Management
-- Deployment Automation
-- Health Monitoring
-- Failure Recovery Strategies
-- DevOps Workflows
-
----
-
 ## Author
 
 **Zubair Fakhar**
-
-GitHub: https://github.com/zubair-fakhar
-
----
-
-## License
-
-This project is licensed under the MIT License.
-See the LICENSE file for details.
