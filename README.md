@@ -23,7 +23,7 @@ It automates the complete software delivery pipeline, including Continuous Integ
 
 ## System Architecture
 
-![System Architecture](docs/architecture.png)
+![System Architecture](docs/Architecture.png)
 
 ### Deployment Flow
 
