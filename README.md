@@ -1,74 +1,199 @@
-# Smart CI/CD Platform 🚀
+# 🚀 Smart CI/CD Platform
+
 ## Intelligent CI/CD Deployment & Auto Rollback Platform using AWS
 
-Smart CI/CD Platform is a cloud-based deployment automation system built using Flask, GitHub Actions, and AWS EC2.
+Smart CI/CD Platform is a cloud-based deployment automation system designed to streamline software delivery through Continuous Integration and Continuous Deployment (CI/CD). The platform automatically deploys application updates to an AWS EC2 instance, validates deployment health, tracks deployment history, and automatically restores the last stable version if a deployment failure is detected.
 
-It automates the complete software delivery pipeline, including Continuous Integration (CI), Continuous Deployment (CD), health monitoring, deployment tracking, and automatic rollback when deployment failures are detected.
-
----
-
-## Features
-
-- Automated CI/CD pipeline using GitHub Actions
-- AWS EC2 deployment integration
-- Automatic rollback on deployment failure
-- Health monitoring using a dedicated health check endpoint
-- Deployment dashboard built with Flask
-- Deployment history tracking
-- Backup of previous stable version before deployment
-- Version tracking and deployment analytics
-- Secure deployment using GitHub Secrets
+The project demonstrates practical implementation of modern DevOps practices, cloud infrastructure management, deployment automation, and failure recovery strategies using AWS and GitHub Actions.
 
 ---
 
-## System Architecture
+# 📌 Project Overview
 
-![System Architecture](docs/Architecture.png)
+Deploying applications manually can be time-consuming and error-prone. A failed deployment can result in service downtime, affecting both users and business operations.
 
-### Deployment Flow
+This project addresses these challenges by providing an automated deployment pipeline that:
+
+* Automatically deploys application updates
+* Monitors deployment health
+* Tracks deployment analytics and history
+* Creates backups before every deployment
+* Automatically rolls back failed deployments
+* Reduces manual intervention and downtime
+
+---
+
+# 🚀 Features
+
+* ✅ Automated CI/CD Pipeline using GitHub Actions
+* ✅ AWS EC2 Deployment Automation
+* ✅ Automated Health Monitoring
+* ✅ Auto Rollback on Deployment Failure
+* ✅ Backup of Previous Stable Version
+* ✅ Deployment Dashboard
+* ✅ Deployment History Tracking
+* ✅ Version Management
+* ✅ Secure Deployment using GitHub Secrets
+* ✅ Production Deployment using Gunicorn
+
+---
+
+# ☁️ Cloud Infrastructure
+
+The platform is deployed on AWS and utilizes:
+
+### AWS EC2
+
+Provides the cloud infrastructure required to host and run the application.
+
+### GitHub Actions
+
+Automates the entire deployment workflow from code push to production deployment.
+
+### GitHub Secrets
+
+Securely stores deployment credentials such as:
+
+* EC2 Host
+* EC2 Username
+* SSH Private Key
+
+### Gunicorn
+
+Acts as the production-grade WSGI server responsible for serving the Flask application on the EC2 instance.
+
+---
+
+# 🔄 CI/CD Pipeline Workflow
+
+The deployment process follows these steps:
+
+1. Developer pushes code to the main branch.
+2. GitHub Actions automatically triggers the workflow.
+3. Current application version is backed up.
+4. Updated code is transferred to AWS EC2.
+5. Application is restarted using Gunicorn.
+6. Health validation is performed through the health endpoint.
+7. If validation succeeds, deployment is completed.
+8. If validation fails, automatic rollback restores the previous stable version.
+
+---
+
+# 🧠 Auto Rollback Mechanism
+
+One of the core features of the platform is its intelligent rollback capability.
+
+### Deployment Success
 
 ```text
-Developer
-   │
-   ▼
-GitHub Repository
-   │
-   ▼
-GitHub Actions (CI/CD Pipeline)
-   │
-   ├── Backup Current Version
-   ├── Deploy New Code to EC2
-   ├── Run Health Check
-   └── Auto Rollback if Failed
-   │
-   ▼
-AWS EC2 Server
-   │
-   ▼
-Flask Application
+Code Push
+    ↓
+Deploy New Version
+    ↓
+Health Check Passed
+    ↓
+Deployment Successful
 ```
 
----
+### Deployment Failure
 
-## Tech Stack
+```text
+Code Push
+    ↓
+Deploy New Version
+    ↓
+Health Check Failed
+    ↓
+Restore Previous Backup
+    ↓
+Restart Application
+```
 
-### Backend
-- Python
-- Flask
-- Gunicorn
-
-### Cloud & DevOps
-- AWS EC2
-- GitHub Actions
-- Bash Scripting
-
-### Frontend
-- HTML
-- CSS
+This ensures application availability even when deployment issues occur.
 
 ---
 
-## Project Structure
+# ❤️ Health Monitoring
+
+The platform continuously validates deployment success through a dedicated endpoint.
+
+### Health Endpoint
+
+```text
+/health
+```
+
+Expected Response:
+
+```text
+healthy
+```
+
+The CI/CD pipeline uses this endpoint to verify that the application is functioning correctly after deployment.
+
+---
+
+# 📊 Deployment Dashboard
+
+The Flask dashboard provides deployment insights including:
+
+* Current Version
+* Deployment Status
+* Successful Deployments
+* Failed Deployments
+* Rollback Statistics
+* Last Deployment Information
+
+This allows users to monitor deployment activity through a simple web interface.
+
+---
+
+# 📜 Deployment History Tracking
+
+The platform maintains deployment records for monitoring and auditing purposes.
+
+Tracked information includes:
+
+* Version Number
+* Deployment Status
+* Deployment Timestamp
+* Rollback Events
+
+This enables visibility into previous deployment activities.
+
+---
+
+# 🛠️ Technologies Used
+
+## Programming Language
+
+* Python
+
+## Backend Framework
+
+* Flask
+
+## DevOps & Automation
+
+* GitHub Actions
+* Bash Scripting
+
+## Cloud Platform
+
+* AWS EC2
+
+## Application Server
+
+* Gunicorn
+
+## Frontend
+
+* HTML
+* CSS
+
+---
+
+# 📂 Project Structure
 
 ```text
 smart-cicd-platform/
@@ -92,47 +217,36 @@ smart-cicd-platform/
 ├── version.txt
 ├── analytics.json
 ├── history.json
+├── LICENSE
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## How the CI/CD Pipeline Works
+# 🏗️ System Architecture
 
-1. Developer pushes code to the `main` branch.
-2. GitHub Actions workflow is automatically triggered.
-3. Current application version is backed up on the EC2 server.
-4. New code is transferred and deployed.
-5. The application starts using Gunicorn.
-6. A health check request is sent to the application.
-7. If the health check succeeds, deployment is completed.
-8. If the health check fails, the previous stable version is restored automatically.
+![System Architecture](docs/architecture.png)
 
 ---
 
-### Process
+# 🔐 Security
 
-- Before deployment, the current working version is backed up.
-- After deployment, the application health is verified.
-- If deployment validation fails:
-  - The newly deployed version is removed.
-  - The previous stable backup is restored.
-  - The application is restarted automatically.
+Deployment credentials are not stored in the source code.
 
-This minimizes downtime and helps maintain service availability.
+Sensitive information is managed using GitHub Secrets, ensuring secure deployment and preventing credential exposure.
 
----
+Protected values include:
 
-## Health Check Endpoint
-
-The application provides a dedicated endpoint for deployment verification.
+* EC2 Host
+* EC2 Username
+* SSH Private Key
 
 ---
 
-## Installation
+# 🚀 Reproducing the Project
 
-### Clone the Repository
+### Clone Repository
 
 ```bash
 git clone https://github.com/zubair-fakhar/smart-cicd-platform.git
@@ -145,66 +259,18 @@ cd smart-cicd-platform
 pip install -r requirements.txt
 ```
 
-### Run the Application
+### Run Application
 
 ```bash
 python app.py
 ```
 
-Open:
+---
 
-```text
-http://127.0.0.1:5000
-```
+# 👨‍💻 Author
+
+**Muhammad Zubair**
 
 ---
 
-## AWS Deployment Configuration
-
-### Required GitHub Secrets
-
-Navigate to:
-
-```text
-Repository Settings → Secrets and Variables → Actions
-```
-
-Create the following secrets:
-
-| Secret Name | Description |
-|------------|-------------|
-| EC2_HOST | AWS EC2 Public IP |
-| EC2_USER | EC2 Username (usually ubuntu) |
-| EC2_SSH_KEY | Private SSH Key (.pem contents) |
-
----
-
-## Deployment Dashboard
-
-The platform includes a web-based dashboard that displays:
-
-- Current application version
-- Deployment status
-- Successful deployments
-- Failed deployments
-- Rollback statistics
-- Deployment history
-
----
-
-## Deployment History
-
-Deployment records are stored and displayed through the history module.
-
-Tracked information includes:
-
-- Version number
-- Deployment status
-- Deployment timestamp
-- Rollback events
-
----
-
-## Author
-
-**Zubair Fakhar**
+If you found this project useful, consider giving it a ⭐ on GitHub.
